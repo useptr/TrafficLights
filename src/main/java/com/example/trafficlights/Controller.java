@@ -20,10 +20,78 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 
 public class Controller implements EventListener {
-    private TrafficLight editor = new TrafficLight();
-    private ArrayList<TextField> durations = new ArrayList<>();
-    private String lastTrafficLightStage;
+    private TrafficLight editor = new TrafficLight(); // светофор
+    private ArrayList<TextField> durations = new ArrayList<>(); // продолжительности фаз
+    private String lastTrafficLightStage; // текущая фаза светофора
+    @FXML
+    public void ToggleButtonTrafficLightStateAction() {
+        if (ToggleButtonTrafficLightState.isSelected()) {
+            ToggleButtonTrafficLightState.setText("Вкл.");
+            editor.enableTrafficLight(true);
+        }
+        else {
+            ToggleButtonTrafficLightState.setText("Выкл.");
+            editor.enableTrafficLight(false);
+        }
 
+    } // вкл/выкл светофор
+    private TextFieldContainInt parseStageDuration(TextField textField) {
+        TextFieldContainInt textFieldContainInt = new TextFieldContainInt();
+        try {
+            textFieldContainInt.value = Integer.parseInt(textField.getText().trim());
+            if (textFieldContainInt.value < 1)
+                textFieldContainInt.containInt = false;
+            else
+                textFieldContainInt.containInt = true;
+        } catch (NumberFormatException e) {
+            textFieldContainInt.containInt = false;
+        }
+        return textFieldContainInt;
+    } // преоброзование TextField в продолжительность фазы
+    @FXML
+    public void ButtonUpdateStagesAction() {
+        boolean existInvalidValue = false;
+        ArrayList<Integer> durationValues = new ArrayList<>();
+        for(TextField textField : durations) {
+            TextFieldContainInt textFieldContainInt = parseStageDuration(textField);
+            if (!textFieldContainInt.containInt) {
+                existInvalidValue = true;
+                break;
+            }
+            durationValues.add(textFieldContainInt.value);
+        }
+        if (existInvalidValue)
+            LabelInvalidInput.setVisible(true);
+        else {
+            LabelInvalidInput.setVisible(false);
+            editor.updateStageDurations(durationValues);
+        }
+    } // обновить продолжительности фаз
+    @Override
+    public void update(String eventType, int time) {
+        if (!eventType.equals(lastTrafficLightStage)) {
+            lastTrafficLightStage = eventType;
+            if (eventType.equals("yellow blinking light is on")) {
+                turnOnYellowBlinkingLight();
+            } else if (eventType.equals("red light is on")) {
+                turnOnRedLight();
+            } else if (eventType.equals("red and yellow light is on")) {
+                turnOnRedYellowLight();
+            } else if (eventType.equals("yellow light is on")) {
+                turnOnYellowLight();
+            } else if (eventType.equals("green light is on")) {
+                turnOnGreenLight();
+            } else if (eventType.equals("green blinking light is on")) {
+                turnOnGreenBlinkingLight();
+            } else if (eventType.equals("yellow last light is on")) {
+                turnOnLastYellowLight();
+            }
+        }
+        if (lastTrafficLightStage.equals("yellow blinking light is on"))
+            setTimeLeft("бесконечность");
+        else
+            setTimeLeft(time+ " с");
+    } // EventListener метод получающий события от TrafficLight
     @FXML
     private void initialize() {
         double circleRadiusRatio = 3*2+0.1;
@@ -101,75 +169,7 @@ public class Controller implements EventListener {
     public TextField TextFieldYellowLastStage;
     @FXML
     public Button ButtonUpdateStages;
-    @FXML
-    public void ToggleButtonTrafficLightStateAction() {
-        if (ToggleButtonTrafficLightState.isSelected()) {
-            ToggleButtonTrafficLightState.setText("Вкл.");
-            editor.enableTrafficLight(true);
-        }
-        else {
-            ToggleButtonTrafficLightState.setText("Выкл.");
-            editor.enableTrafficLight(false);
-        }
 
-    }
-    private TextFieldContainInt parseStageDuration(TextField textField) {
-        TextFieldContainInt textFieldContainInt = new TextFieldContainInt();
-        try {
-            textFieldContainInt.value = Integer.parseInt(textField.getText().trim());
-            if (textFieldContainInt.value < 1)
-                textFieldContainInt.containInt = false;
-            else
-                textFieldContainInt.containInt = true;
-        } catch (NumberFormatException e) {
-            textFieldContainInt.containInt = false;
-        }
-        return textFieldContainInt;
-    }
-    @FXML
-    public void ButtonUpdateStagesAction() {
-        boolean existInvalidValue = false;
-        ArrayList<Integer> durationValues = new ArrayList<>();
-        for(TextField textField : durations) {
-            TextFieldContainInt textFieldContainInt = parseStageDuration(textField);
-            if (!textFieldContainInt.containInt) {
-                existInvalidValue = true;
-                break;
-            }
-            durationValues.add(textFieldContainInt.value);
-        }
-        if (existInvalidValue)
-            LabelInvalidInput.setVisible(true);
-        else {
-            LabelInvalidInput.setVisible(false);
-            editor.updateStageDurations(durationValues);
-        }
-    }
-    @Override
-    public void update(String eventType, int time) {
-        if (!eventType.equals(lastTrafficLightStage)) {
-            lastTrafficLightStage = eventType;
-            if (eventType.equals("yellow blinking light is on")) {
-                turnOnYellowBlinkingLight();
-            } else if (eventType.equals("red light is on")) {
-                turnOnRedLight();
-            } else if (eventType.equals("red and yellow light is on")) {
-                turnOnRedYellowLight();
-            } else if (eventType.equals("yellow light is on")) {
-                turnOnYellowLight();
-            } else if (eventType.equals("green light is on")) {
-                turnOnGreenLight();
-            } else if (eventType.equals("green blinking light is on")) {
-                turnOnGreenBlinkingLight();
-            } else if (eventType.equals("yellow last light is on")) {
-                turnOnLastYellowLight();
-            }
-        }
-        if (lastTrafficLightStage.equals("yellow blinking light is on"))
-            setTimeLeft("бесконечность");
-        else
-            setTimeLeft(time+ " с");
-    }
     private void setTimeLeft(String left) {
         LabelTimeLeft.setText("Осталось времени текущей фазы: " + left);
     }

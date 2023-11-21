@@ -10,23 +10,17 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 
 public class TrafficLight {
-    public EventManager events = new EventManager("yellow blinking light is on",
-            "red light is on",
-            "red and yellow light is on",
-            "yellow light is on",
-            "green light is on",
-            "green blinking light is on",
-            "yellow last light is on");
-    int[] stageDurations = {3, 5, 7, 10, 12, 14};
-    private TrafficLightsStage lastStage = TrafficLightsStage.YELLOW_BLINKING;
-    private boolean isOn = false;
-    private Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), this::stageHandler));
-    private int countdown = 0;
+    public EventManager events = new EventManager("yellow blinking light is on", "red light is on", "red and yellow light is on", "yellow light is on", "green light is on", "green blinking light is on", "yellow last light is on");
+    int[] stageDurations = {3, 5, 7, 10, 12, 14}; // продолжительности фаз
+    private TrafficLightsStage lastStage = TrafficLightsStage.YELLOW_BLINKING; // текущая фаза
+    private boolean isOn = false; // состояние светофора вкл/выкл
+    private Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), this::stageHandler)); // Временная шкала вызывающая метод stageHandler каждую секунду
+    private int countdown = 0; // время светофора
 
     public TrafficLight() {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
-    }
+    } // коструктор
     public void enableTrafficLight(boolean status) {
         if (status != isOn) {
             if (isOn) {
@@ -39,7 +33,7 @@ public class TrafficLight {
             }
             isOn = status;
         }
-    }
+    } // вкл/выкл светофор
     public void updateStageDurations(ArrayList<Integer> durations) {
         stageDurations[0] = durations.get(0);
         for (int i = 1; i<durations.size(); ++i) {
@@ -52,7 +46,7 @@ public class TrafficLight {
 //        stageDurations[5] = stageDurations[4]+durations.get(5);
         countdown =0;
         //  countdown = getStageByTime();
-    }
+    } // обновить продолжительности фаз
     public void stageHandler(ActionEvent event) {
         if (isOn) {
             ++countdown;
@@ -96,7 +90,7 @@ public class TrafficLight {
                 lastStage = TrafficLightsStage.YELLOW_BLINKING;
 //            }
         }
-    }
+    } // генерирование события в зависимости от фазы
     public boolean isRedStage() {
         if (countdown < stageDurations[0])
             return true;
