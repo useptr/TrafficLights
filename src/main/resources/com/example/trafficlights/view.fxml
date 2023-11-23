@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.example.trafficlights.TrafficLightsControl?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -112,6 +113,7 @@
                <Insets bottom="50.0" top="50.0" />
             </padding>
          </VBox>
+<!--         <TrafficLightsControl HBox.hgrow="ALWAYS" />-->
       </children>
    </HBox>
 </VBox>

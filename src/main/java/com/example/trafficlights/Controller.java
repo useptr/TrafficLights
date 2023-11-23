@@ -7,6 +7,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -17,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Controller implements EventListener {
@@ -67,6 +70,9 @@ public class Controller implements EventListener {
             editor.updateStageDurations(durationValues);
         }
     } // обновить продолжительности фаз
+
+    @FXML
+    private TrafficLightsControl trafficLightsControl = new TrafficLightsControl();
     @Override
     public void update(String eventType, int time) {
         if (!eventType.equals(lastTrafficLightStage)) {
@@ -92,8 +98,33 @@ public class Controller implements EventListener {
         else
             setTimeLeft(time+ " с");
     } // EventListener метод получающий события от TrafficLight
+//    private TrafficLights tr = new TrafficLights();
     @FXML
     private void initialize() {
+//        trafficLightsControl.trafficLight.getGreen();
+        HBoxTrafficLights.getChildren().add(trafficLightsControl);
+//                try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("traffic-light.fxml"));
+//            trafficLightsControl.trafficLight = new TrafficLightComponent();
+//            loader.setController(trafficLightsControl.trafficLight);
+//            Node node = loader.load();
+//            trafficLightsControl.getChildren().add(node);
+//            double circleRadiusRatio = 3*2+0.1;
+//            trafficLightsControl.setStyle("-fx-background-color: gray;");
+//        trafficLightsControl.trafficLight.getRed().radiusProperty().bind(trafficLightsControl.heightProperty().divide(circleRadiusRatio));
+//        trafficLightsControl.trafficLight.getYellow().radiusProperty().bind(trafficLightsControl.heightProperty().divide(circleRadiusRatio));
+//        trafficLightsControl.trafficLight.getGreen().radiusProperty().bind(trafficLightsControl.heightProperty().divide(circleRadiusRatio));
+//
+////            trafficLight.getRed().radiusProperty().bind(this.widthProperty().divide(2));
+////            red.radiusProperty().bind(root.widthProperty().divide(circleRadiusRatio));
+//
+////            trafficLight.initBinds();
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+
+
+
         double circleRadiusRatio = 3*2+0.1;
         RedCircle.radiusProperty().bind(VBoxRoot.heightProperty().divide(circleRadiusRatio));
         YellowCircle.radiusProperty().bind(VBoxRoot.heightProperty().divide(circleRadiusRatio));
@@ -129,6 +160,7 @@ public class Controller implements EventListener {
         editor.events.subscribe("green blinking light is on",this);
         editor.events.subscribe("yellow last light is on",this);
 
+//        HBoxTrafficLights.getChildren().add(tr);
 //        yellowBlinkingTimeline.play();
 //        timeline.play();
 //        timeline.stop();

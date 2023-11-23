@@ -16,7 +16,6 @@ public class TrafficLight {
     private boolean isOn = false; // состояние светофора вкл/выкл
     private Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), this::stageHandler)); // Временная шкала вызывающая метод stageHandler каждую секунду
     private int countdown = 0; // время светофора
-
     public TrafficLight() {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
