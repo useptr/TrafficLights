@@ -10,13 +10,11 @@ import java.util.Map;
 
 public class TrafficLightEventManager {
     Map<TrafficLightsControl.Event, List<TrafficLightEventListener>> listeners = new HashMap<>(); // key - событие, value - слушатели события
-
     public TrafficLightEventManager(TrafficLightsControl.Event... operations) {
         for (TrafficLightsControl.Event operation : operations) {
             this.listeners.put(operation, new ArrayList<>());
         }
     } // конструктор
-
     public void subscribe(TrafficLightsControl.Event eventType, TrafficLightEventListener listener) {
         List<TrafficLightEventListener> users = listeners.get(eventType);
         users.add(listener);
@@ -32,7 +30,6 @@ public class TrafficLightEventManager {
         List<TrafficLightEventListener> users = listeners.get(eventType);
         users.remove(listener);
     } // отписать слушателя
-
     public void notify(TrafficLightsControl.Event eventType, TrafficLightEvent event) {
         List<TrafficLightEventListener> users = listeners.get(eventType);
         for (TrafficLightEventListener listener : users) {

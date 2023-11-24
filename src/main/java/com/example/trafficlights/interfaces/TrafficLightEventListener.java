@@ -5,4 +5,5 @@ import com.example.trafficlights.TrafficLightsControl;
 
 public interface TrafficLightEventListener {
     void update(TrafficLightsControl.Event eventType, TrafficLightEvent event);
+    // метод вызывающийся у всех слушателей после уведомления о событии
 }

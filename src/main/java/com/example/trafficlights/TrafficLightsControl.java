@@ -1,6 +1,6 @@
 package com.example.trafficlights;
 
-import com.example.trafficlights.interfaces.TrafficLightListener;
+import com.example.trafficlights.interfaces.TrafficLightBehaviour;
 import com.example.trafficlights.models.TrafficLightEvent;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -13,7 +13,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
-public class TrafficLightsControl extends AnchorPane implements TrafficLightListener {
+public class TrafficLightsControl extends AnchorPane implements TrafficLightBehaviour {
     public enum Event {
         RED("Красная", 0), RED_YELLOW("Красный/Желтый", 1), YELLOW("Желтый", 2), GREEN("Зеленый",3), GREEN_BLINKING("Зеленый мигающий", 4), LAST_YELLOW("Последний желтый",5), YELLOW_BLINKING("Желтый мигающий",6);
         public final String name;
@@ -49,19 +49,18 @@ public class TrafficLightsControl extends AnchorPane implements TrafficLightList
             ex.printStackTrace();
         }
     } // конструктор
+    // TrafficLightBehaviour Override методы
     @Override
     public void on() {
         isOn = true;
         state = Event.RED;
         countdown = 0;
     }
-
     @Override
     public void reset() {
         isOn = false;
         state = Event.YELLOW_BLINKING;
     }
-
     @Override
     public void setState(Event state) {
         if (state.index < statesSize) {

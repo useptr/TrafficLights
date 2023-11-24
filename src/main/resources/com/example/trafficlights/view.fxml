@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import com.example.trafficlights.TrafficLightsControl?>
 <VBox fx:id="VBoxRoot" alignment="CENTER" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trafficlights.MainScreenController">
    <HBox fx:id="HBoxTrafficLights" alignment="CENTER" VBox.vgrow="ALWAYS">
       <children>

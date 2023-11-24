@@ -23,7 +23,7 @@ public class MainScreenController {
         }
         return textFieldContainInt;
     } // преоброзование TextField в продолжительность фазы
-    private TrafficLightsControl trafficLightsControl = new TrafficLightsControl();
+    private TrafficLightsControl trafficLightsControl = new TrafficLightsControl(); // сфетофор
     @FXML
     private void initialize() {
         ComboBoxStates.setItems(FXCollections.observableArrayList(TrafficLightsControl.Event.RED, TrafficLightsControl.Event.RED_YELLOW, TrafficLightsControl.Event.YELLOW, TrafficLightsControl.Event.GREEN, TrafficLightsControl.Event.GREEN_BLINKING, TrafficLightsControl.Event.LAST_YELLOW));
@@ -40,9 +40,35 @@ public class MainScreenController {
 //        editor.events.subscribe("green blinking light is on",this);
 //        editor.events.subscribe("yellow last light is on",this);
     }
-
-    private TrafficLightStateListener stateListener;
-    private TrafficLightTimeLeftListener timeLeftListener;
+    @FXML
+    private void textFieldStateUpdate() {
+        TrafficLightsControl.Event state = (TrafficLightsControl.Event)ComboBoxStates.getValue();
+        boolean invalidValue = true;
+        if (state != null) {
+            TextFieldContainInt textFieldContainInt = parseStageDuration(TextFieldState);
+            if (textFieldContainInt.containInt) {
+                invalidValue = false;
+                trafficLightsControl.setStateDuration(state, textFieldContainInt.value);
+            }
+        }
+        if (invalidValue)
+            LabelInvalidInput.setVisible(true);
+        else
+            LabelInvalidInput.setVisible(false);
+    } // обработка нажатия на кнопку обновить продолжительность
+    @FXML
+    private void toggleButtonTrafficLightStateClicked() {
+        if (ToggleButtonTrafficLightState.isSelected()) {
+            ToggleButtonTrafficLightState.setText("Вкл.");
+            trafficLightsControl.on();
+        }
+        else {
+            ToggleButtonTrafficLightState.setText("Выкл.");
+            trafficLightsControl.reset();
+        }
+    } // обработка вкл/выкл светофора
+    private TrafficLightStateListener stateListener; // слушатель изменения фазы светофора
+    private TrafficLightTimeLeftListener timeLeftListener; // слушатель оставшегося времени фазы светофора
     @FXML
     private VBox VBoxTrafficLights;
     @FXML
@@ -63,31 +89,5 @@ public class MainScreenController {
     private Button ButtonUpdateState;
     @FXML
     private ComboBox ComboBoxStates;
-    @FXML
-    private void textFieldStateUpdate() {
-        TrafficLightsControl.Event state = (TrafficLightsControl.Event)ComboBoxStates.getValue();
-        boolean invalidValue = true;
-        if (state != null) {
-            TextFieldContainInt textFieldContainInt = parseStageDuration(TextFieldState);
-            if (textFieldContainInt.containInt) {
-                invalidValue = false;
-                trafficLightsControl.setStateDuration(state, textFieldContainInt.value);
-            }
-        }
-        if (invalidValue)
-            LabelInvalidInput.setVisible(true);
-        else
-            LabelInvalidInput.setVisible(false);
-    }
-    @FXML
-    private void toggleButtonTrafficLightStateClicked() {
-        if (ToggleButtonTrafficLightState.isSelected()) {
-            ToggleButtonTrafficLightState.setText("Вкл.");
-            trafficLightsControl.on();
-        }
-        else {
-            ToggleButtonTrafficLightState.setText("Выкл.");
-            trafficLightsControl.reset();
-        }
-    }
+
 }
