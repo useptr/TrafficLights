@@ -47,10 +47,12 @@ public class TrafficLightComponent implements Initializable {
         trafficLightGreenCircle.setFill(offColor);
         trafficLightYellowCircle.setFill(offColor);
         trafficLightRedCircle.setFill(offColor);
+        greenBlinkingTimeline.stop();
+        yellowBlinkingTimeline.stop();
     }
     public void onRed() {
         resetCircles();
-        trafficLightGreenCircle.setFill(Color.RED);
+        trafficLightRedCircle.setFill(Color.RED);
     }
     public void onRedYellow() {
         resetCircles();

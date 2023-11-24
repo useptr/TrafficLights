@@ -8,9 +8,9 @@
    <children>
       <VBox fx:id="trafficLightVBox" alignment="CENTER">
          <children>
-            <Circle fx:id="trafficLightGreenCircle" fill="RED" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" VBox.vgrow="ALWAYS" />
+            <Circle fx:id="trafficLightRedCircle" fill="RED" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" VBox.vgrow="ALWAYS" />
             <Circle fx:id="trafficLightYellowCircle" fill="YELLOW" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" VBox.vgrow="ALWAYS" />
-            <Circle fx:id="trafficLightRedCircle" fill="#1aff00" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" VBox.vgrow="ALWAYS" />
+            <Circle fx:id="trafficLightGreenCircle" fill="#1aff00" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>
